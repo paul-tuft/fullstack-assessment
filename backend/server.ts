@@ -6,6 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Connect to PostgreSQL
 const pool = new Pool({
   user: "postgres",
   host: "db",
@@ -14,7 +15,7 @@ const pool = new Pool({
   port: 5432,
 });
 
-// Ensure table exists and seed cards
+// Check if the table exists
 const init = async () => {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS cards (
@@ -23,7 +24,8 @@ const init = async () => {
       first_click_ts TIMESTAMP
     );
   `);
-
+  
+// Initialize cards if they don't exist
   for (let i = 1; i <= 8; i++) {
     await pool.query(`
       INSERT INTO cards (id, click_count, first_click_ts)

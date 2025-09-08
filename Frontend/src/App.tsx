@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+// Create Card interface
 interface Card {
   id: number;
   click_count: number;
   first_click_ts: string | null;
 }
 
+// Main App component
 const App = () => {
   const [cards, setCards] = useState<Card[]>([]);
   const [sortMode, setSortMode] = useState<"clicks" | "firstClick" | "original">("original");
@@ -22,6 +24,7 @@ const App = () => {
     }
   };
 
+// Handle card click
   const clickCard = async (id: number) => {
     try {
       const res = await axios.post(`http://localhost:4000/cards/${id}/click`);
@@ -32,6 +35,7 @@ const App = () => {
     }
   };
 
+// Handle reset
   const resetCards = async () => {
     try {
       await axios.post("http://localhost:4000/cards/reset");
@@ -42,10 +46,12 @@ const App = () => {
     }
   };
 
+// Initial fetch
   useEffect(() => {
     fetchCards();
   }, []);
 
+// Sort cards based on mode
   const sortedCards = [...cards].sort((a, b) => {
     if (sortMode === "clicks") return b.click_count - a.click_count;
     if (sortMode === "firstClick")
@@ -54,7 +60,7 @@ const App = () => {
     return a.id - b.id;
   });
 
-  // Inline styles
+  // UI styles
   const containerStyle: React.CSSProperties = { padding: "20px", maxWidth: "800px", margin: "0 auto", fontFamily: "sans-serif" };
   const controlsStyle: React.CSSProperties = { display: "flex", flexWrap: "wrap", gap: "10px", justifyContent: "center", marginBottom: "20px" };
   const buttonStyle: React.CSSProperties = { padding: "10px 15px", cursor: "pointer" };
