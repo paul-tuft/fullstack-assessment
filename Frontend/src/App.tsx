@@ -4,7 +4,7 @@ import axios from "axios";
 interface Card {
   id: number;
   click_count: number;
-  first_click: string | null;
+  first_click_ts: string | null;
 }
 
 const App = () => {
@@ -49,8 +49,8 @@ const App = () => {
   const sortedCards = [...cards].sort((a, b) => {
     if (sortMode === "clicks") return b.click_count - a.click_count;
     if (sortMode === "firstClick")
-      return (a.first_click ? new Date(a.first_click).getTime() : Infinity) -
-             (b.first_click ? new Date(b.first_click).getTime() : Infinity);
+      return (a.first_click_ts ? new Date(a.first_click_ts).getTime() : Infinity) -
+             (b.first_click_ts ? new Date(b.first_click_ts).getTime() : Infinity);
     return a.id - b.id;
   });
 
@@ -88,7 +88,9 @@ const App = () => {
           >
             <div style={cardNumberStyle}>Card {card.id}</div>
             <div>Clicks: {card.click_count}</div>
-            <div>First Click: {card.first_click ? new Date(card.first_click).toLocaleString() : "-"}</div>
+            <div>
+              First Click: {card.first_click_ts ? new Date(card.first_click_ts).toLocaleString() : "-"}
+            </div>
           </div>
         ))}
       </div>
