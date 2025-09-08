@@ -67,4 +67,4 @@ app.post("/cards/reset", async (req, res) => {
   res.json({ message: "All cards reset" });
 });
 
-app.listen(4000, () => console.log("Backend running on port http://localhost:4000"));
+app.listen(4000, () => console.log("Backend running on port http://localhost:4000/cards"));
